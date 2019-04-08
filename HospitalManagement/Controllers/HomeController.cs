@@ -15,6 +15,28 @@ namespace HospitalManagement.Controllers
             return View();
         }
 
+        public ActionResult Appointment()
+        {
+            HospitalContext hc = new HospitalContext();
+            List<Doctor> doctors = hc.Doctors.ToList();
+            ViewBag.doctors = doctors;
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Appointment(FormCollection collection)
+        {
+            foreach (string key in collection.AllKeys)
+            {       
+                Response.Write("Key = " + key + " , ");
+                Response.Write("Value = " + collection[key]);
+                Response.Write("<br/>");
+            }
+
+            return View();
+        }
+
         [HttpGet]
         public ActionResult Register()
         {
@@ -133,6 +155,13 @@ namespace HospitalManagement.Controllers
      
         }
 
+        public ActionResult AppointmentList()
+        {
+            HospitalContext hc = new HospitalContext();
+            List<Appointment> a = hc.Appointments.ToList();
+            return View(a);
+        }
+
         public ActionResult Logout()
         {
             Session.Clear();
@@ -161,8 +190,21 @@ namespace HospitalManagement.Controllers
                 return RedirectToAction("Login");
             }
             else
-            {
+            {             
                 return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Test(FormCollection collection)
+        {
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                return RedirectToAction("Index");
             }
         }
 
@@ -181,5 +223,38 @@ namespace HospitalManagement.Controllers
             }
         }
 
+        public ActionResult ViewPrescription()
+        {
+            HospitalContext hc = new HospitalContext();
+            Prescription p = hc.Prescriptions.Find(1);
+            return View(p);
+        }
+
+        public ActionResult WritePrescription()
+        {
+            HospitalContext hc = new HospitalContext();
+            Prescription p = hc.Prescriptions.Find(1);
+            return View(p);
+        }
+
+        [HttpPost]
+        public ActionResult WritePrescription(FormCollection collection)
+        {
+            HospitalContext hc = new HospitalContext();
+            Prescription p = hc.Prescriptions.Find(1);
+            p.Advice = collection["Advice"] ;
+            p.Diagnosis = collection["Diagnosis"];
+            p.Medication = collection["Medication"];
+            p.Symptoms = collection["Symptoms"];
+            hc.SaveChanges();
+            return View(p);
+        }
+
+        public ActionResult PrescriptionList()
+        {
+            HospitalContext hc = new HospitalContext();
+            List<Prescription> p = hc.Prescriptions.ToList();
+            return View(p);
+        }
     }
 }

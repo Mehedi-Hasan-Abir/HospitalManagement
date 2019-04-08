@@ -4,8 +4,8 @@
 @using System.Globalization;
 
 @{
-    ViewBag.Title = "Test";
-    Layout = "~/Views/Shared/_profile.cshtml";
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Test.cshtml";
 }
 
 
@@ -54,9 +54,7 @@
                                 <div class="form-group">
                                     @{
                                         List<SelectListItem> dlist = new List<SelectListItem>();
-                                        HospitalContext hc = new HospitalContext();
-                                        List<Doctor> doctors = hc.Doctors.ToList();
-                                        foreach (Doctor d in doctors)
+                                        foreach (Doctor d in ViewBag.doctors)
                                         {
                                             dlist.Add(new SelectListItem { Text = d.DoctorName, Value = d.DoctorName });
                                         }
@@ -161,14 +159,4 @@
             </div>
         </div>
     </div>
-</div>
-
-<div class="copyrights">
-    <div class="meet-social">
-        <span><a href="https://www.facebook.com/IwThemesTF" target="_blank"><i class="fa fa-facebook-square"></i></a></span>
-        <span><a href="https://twitter.com/iwthemes" target="_blank"><i class="fa fa-twitter-square"></i></a></span>
-        <span><a href="https://www.youtube.com/channel/UCEb3nAep6tYiAkZpqi0Kzew" target="_blank"><i class="fa fa-youtube-square"></i></a></span>
-        <span><a href="#"><i class="fa fa-linkedin-square"></i></a></span>
-    </div>
-    <p>&copy; 2017 - <a href="http://iwthemes.com/" target="_blank">IwThemes</a>&reg; Envato<img src="@Url.Content("~/Content/Profile/")img/envalogo.png" alt="envato brand">. All Rights Reserved. </p>
 </div>
